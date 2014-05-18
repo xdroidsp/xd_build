@@ -454,6 +454,7 @@ FIND_LEAVES_EXCLUDES := $(addprefix --prune=, $(SCAN_EXCLUDE_DIRS) .repo .git)
 ifneq ($(XDROID_BUILD),)
 include vendor/xdroid/config/BoardConfigXD.mk
 endif
+-include vendor/extra/BoardConfigExtra.mk
 
 # The build system exposes several variables for where to find the kernel
 # headers:
