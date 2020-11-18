@@ -1259,6 +1259,14 @@ endif
 # in the source tree.
 dont_bother_goals := out product-graph
 
+ifneq ($(XDROID_BUILD),)
+ifneq ($(wildcard device/xdroid/sepolicy/common/sepolicy.mk),)
+## We need to be sure the global selinux policies are included
+## last, to avoid accidental resetting by device configs
+$(eval include device/xdroid/sepolicy/common/sepolicy.mk)
+endif
+endif
+
 # Make ANDROID Soong config variables visible to Android.mk files, for
 # consistency with those defined in BoardConfig.mk files.
 include $(BUILD_SYSTEM)/android_soong_config_vars.mk
@@ -1272,14 +1280,6 @@ endif
 -include external/ltp/android/ltp_package_list.mk
 DEFAULT_DATA_OUT_MODULES := ltp $(ltp_packages) $(kselftest_modules)
 .KATI_READONLY := DEFAULT_DATA_OUT_MODULES
-
-ifneq ($(XDROID_BUILD),)
-ifneq ($(wildcard device/xdroid/sepolicy/common/sepolicy.mk),)
-## We need to be sure the global selinux policies are included
-## last, to avoid accidental resetting by device configs
-$(eval include device/xdroid/sepolicy/common/sepolicy.mk)
-endif
-endif
 
 # Include any vendor specific config.mk file
 -include vendor/*/build/core/config.mk
